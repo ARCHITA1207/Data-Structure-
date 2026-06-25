@@ -1,0 +1,90 @@
+#include<stdio.h>
+#include<stdlib.h>
+struct Node {
+	int data;
+	struct Node*left;
+	struct Node*right;
+};
+struct Node*createNode(int data)
+{
+	struct Node*nn=(struct Node*)malloc(sizeof(struct Node));
+	nn->data=data;
+	nn->left=NULL;
+	nn->right=NULL;
+	return nn;
+}
+struct Node*insert(struct Node*root,int data)
+{
+	if(root==NULL)
+	{
+		return createNode(data);
+	}
+	if(data<root->data)
+	{
+		root->left=insert(root->left,data);
+	}
+	else if(data>root->data)
+	{
+		root->right=insert(root->right,data);
+	}
+	  return root;
+}
+	
+void inOrder(struct Node*root)
+	{
+		if(root!=NULL)
+		{
+			inOrder(root->left);
+			printf("%d ",root->data);
+			inOrder(root->right);
+		}
+	}
+void preOrder(struct Node*root)
+	{
+		if(root!=NULL)
+		{
+			printf("%d ",root->data);
+			preOrder(root->left);
+			preOrder(root->right);
+		}
+	}
+void postOrder(struct Node*root)
+	{
+		if(root!=NULL)
+		{
+			postOrder(root->left);
+			postOrder(root->right);
+			printf("%d ",root->data);
+		}
+	}
+int findHeight(struct Node*root)
+{
+    int leftHeight,rightHeight;
+    if(root==NULL){
+        return 0;
+    }
+    leftHeight=findHeight(root->left);
+    rightHeight=findHeight(root->right);
+    if(leftHeight>rightHeight)
+        return leftHeight+1;
+    else
+        return rightHeight+1;
+    }
+int main() {
+	struct Node*root=NULL;
+	root=insert(root,45 );
+	root=insert(root,56);
+	root=insert(root,20);
+	root=insert(root,50);
+	root=insert(root,60);
+	root=insert(root,10);
+	root=insert(root,30);
+	printf("Inoder: ");
+	inOrder(root);
+	printf("\nPreorder: ");
+	preOrder(root);
+	printf("\nPostorder: ");
+	postOrder(root);
+   printf("\nHeight = %d", findHeight(root));
+	return 0;
+}
